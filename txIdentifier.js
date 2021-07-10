@@ -1,3 +1,5 @@
+const util = require('./util');
+
 /** Imported ABIs */
 const MASTER_CHEF_ABI = require('./json/abis/masterChefABI.json');
 const REFERRAL_ABI = require('./json/abis/referralABI.json');
@@ -11,6 +13,23 @@ const masterChefCustomDecoder = require('./decoders/masterChefDecoder');
 const timeLockCustomDecoder = require('./decoders/timeLockDecoder');
 const referralCustomDecoder = require('./decoders/referralDecoded');
 const erc20CustomDecoder = require('./decoders/erc20Decoder');
+
+const handleTx = async (params, tx, provider) => {
+  if (params.from) {
+    if (tx && tx.from && tx.from.toLowerCase() === params.from.toLowerCase()) {
+      let msg = await util.getMessage('custom', tx, provider);
+      return `Tx Hash : ${tx.hash}\n${msg}`;
+    }
+  }
+
+  if (params.to) {
+    if (tx && tx.to && tx.to.toLowerCase() === params.to.toLowerCase()) {
+      let msg = await util.getMessage('custom', tx, provider);
+      return `Tx Hash : ${tx.hash}\n${msg}`;
+    }
+  }
+  return undefined;
+};
 
 const identifyTransactionByMethodIdAndGetPersonalizedMessage = async (data, decoded, provider) => {
 
@@ -70,4 +89,5 @@ const functionNameInArray = (functionName, functionNameList) => {
   return functionNameList.includes(functionName);
 };
 
+exports.handleTx = handleTx;
 exports.identifyTransactionByMethodIdAndGetPersonalizedMessage = identifyTransactionByMethodIdAndGetPersonalizedMessage;

@@ -19,6 +19,8 @@
   "dependencies": {
     "abi-decoder": "^2.4.0",
     "discord-webhook-node": "^1.1.8",
-    "ethers": "^5.4.1"
+    "discord.js": "^12.5.3",
+    "ethers": "^5.4.1",
+    "pm2": "^5.1.0"
   }
 }
